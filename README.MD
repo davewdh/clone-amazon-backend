@@ -7,7 +7,7 @@
   </p>
 <hr>
 
-## Keeper App 
+## Clone Amazon 
 
 - 📦 [Repository](https://github.com/davewdh/clone-amazon-backend)
 - 🖥 [Site](https://clone-amazon-ij40.onrender.com)
