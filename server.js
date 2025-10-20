@@ -36,7 +36,13 @@ app.use('/api/orders', orderRouter);
 
 // Keep-alive ping endpoint
 app.get('/ping', (req, res) => {
-  res.send('pong');
+  const timestamp = new Date().toISOString();
+  res.set({
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  });
+  res.status(200).send('pong at ' + timestamp);
 });
 
 app.get('/api/config/paypal', (req, res) => {
