@@ -35,14 +35,21 @@ app.use('/api/products', productRouter);
 app.use('/api/orders', orderRouter);
 
 // Keep-alive ping endpoint
-app.get('/ping', (req, res) => {
-  const timestamp = new Date().toISOString();
-  res.set({
-    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-    'Pragma': 'no-cache',
-    'Expires': '0'
-  });
-  res.status(200).send('pong at ' + timestamp);
+app.get('/ping', async (req, res) => {
+  try {
+    await mongoose.connection.db.admin().ping();
+
+    const timestamp = new Date().toISOString();
+    res.set({
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    });
+    res.status(200).send('pong at ' + timestamp);
+  } catch (error) {
+    console.error('MongoDB ping error:', error);
+    res.status(500).send('MongoDB ping failed');
+  }
 });
 
 app.get('/api/config/paypal', (req, res) => {
